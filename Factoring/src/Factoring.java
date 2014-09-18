@@ -2,7 +2,7 @@ import java.util.Scanner;
 //author Fredrik Hernqvist
 
 public class Factoring {
-	public static void main(String[] Args)
+	public static void main(String[] Args) //
 	{
 		Scanner scanner = new Scanner(System.in);
 		while(true){
