@@ -12,7 +12,7 @@ public class Actor {
 	int kills = 0, deaths = 0, team, id;
 	String name;
 	static int PLAYER = 0, BOT = 1, ZOMBIE = 2;
-	boolean active = true, ingame = false, isBot = true;
+	boolean active = true, ingame = false, isBot = true, hasFlag = false;
 	Loadout l;
 	
 	
@@ -20,6 +20,7 @@ public class Actor {
 	{
 		this.loadout = loadout;
 		l = Settings.loadout[loadout];
+		weapon = l.weapon[0];
 		speed = Settings.actorSpeed*l.speedMultiplier;
 	}
 	
@@ -31,13 +32,14 @@ public class Actor {
 		health = 1;
 		ingame = true;
 		if (isBot)
-			setLoadout((int)(4*Math.random()));
+			setLoadout((int)(4.5*Math.random()));
 	}
 	
 	void despawn ()
 	{
 		ingame = false;
 		spawnTime = Settings.spawnDelay;
+		hasFlag = false;
 		Main.situation.addExplosion(
 				new ExplosionEffect(15, 0.1, 0.2, Settings.teamColor[team], pos, 0.5, 4));
 	}
@@ -139,6 +141,7 @@ public class Actor {
 		if (shootTimer > 0)
 			return;
 		Weapon w = Settings.weapon[weapon];
+		this.weapon = weapon;
 		for (int i = 0; i < w.shots; i++)
 			Main.situation.addBullet(new Bullet (pos.clone(), ExtraMath.direction(pos, towards)-w.spread/2+Math.random()*w.spread, weapon, team, id));
 		shootTimer = w.rate;
@@ -148,8 +151,12 @@ public class Actor {
 	{
 		Point end = pos.clone();
 		Main.situation.map.lineCast(end, ExtraMath.direction(pos, p), 1000);
-		g.setColor(ExtraMath.blendAlpha(Settings.teamColor[team], 0.3f));
 		g.drawLine(ExtraMath.sX(pos), ExtraMath.sY(pos), ExtraMath.sX(end), ExtraMath.sY(end));
+	}
+	
+	void drawLaser(Graphics2D g, double dir)
+	{
+		drawLaser (g, pos.addNew(Point.baseVector(dir).scale(1000)));
 	}
 	
 	void engineUpdate()
@@ -159,6 +166,7 @@ public class Actor {
 			spawnTime -= Settings.deltaTime;
 			return;
 		}
+		health = Math.min(health+0.1*l.regenMultiplier*Settings.deltaTime, 1);
 		if (shootTimer > 0)
 			shootTimer -= Settings.deltaTime;
 		if (health <= 0)

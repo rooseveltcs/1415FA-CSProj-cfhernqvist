@@ -6,7 +6,8 @@ public class Loadout_Tank extends Loadout {
 		weapon = new int[]{6, 8, 7};
 		name = "Heavy";
 		letter = 'H';
-		speedMultiplier = 0.6;
-		healthMultiplier = 2;
+		speedMultiplier = 0.65;
+		healthMultiplier = 2.5;
+		regenMultiplier = 0.5;
 	}
 }

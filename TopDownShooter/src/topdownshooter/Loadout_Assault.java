@@ -8,5 +8,6 @@ public class Loadout_Assault extends Loadout {
 		letter = 'A';
 		speedMultiplier = 1;
 		healthMultiplier = 1;
+		regenMultiplier = 1;
 	}
 }

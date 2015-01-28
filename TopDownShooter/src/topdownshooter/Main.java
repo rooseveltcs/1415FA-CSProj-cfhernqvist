@@ -15,7 +15,7 @@ public class Main {
 	static JFrame frame;
 	static Situation situation;
 	static Panel panel;
-	static boolean gameRunning = false, paused = false;
+	static boolean gameRunning = false, paused = false, initialized = false;
 	static Timer timer;
 	
 	public static void main(String[] Args)
@@ -28,12 +28,14 @@ public class Main {
 	
 	static void initGame ()
 	{
+		initialized = false;
 		situation = new Situation ();
 		situation.setMode(Settings.startGameMode);
 		situation.setMap(Settings.maps[Settings.startMap]);
 		gameRunning = true;
 		paused = false;
 		situation.startMatch(Settings.teamsInPlay, Settings.playerTeam, Settings.playersOnTeam);
+		initialized = true;
 	}
 	
 	static void endGame ()
@@ -42,6 +44,7 @@ public class Main {
 	}
 	
 	static void initMenu (){
+		initialized = false;
 		gameRunning = false;
 		paused = false;
 		situation = new Situation ();
@@ -50,6 +53,7 @@ public class Main {
 		situation.startMatch(4, -1, 5);
 		situation.updateCenter();
 		GUI.menuIndex = GUI.MAIN;
+		initialized = true;
 	}
 	
 	static void initWindow ()
@@ -80,7 +84,7 @@ public class Main {
 	
 	static void draw (Graphics2D g)
 	{
-		if (situation == null)
+		if (situation == null || !Main.initialized)
 			return;
 		if (gameRunning)	
 			situation.updateCenter();
@@ -122,6 +126,9 @@ public class Main {
 	
 	static void update ()
 	{
+		if (!Main.initialized)
+			return;
+		
 		Settings.width = panel.getWidth();
 		Settings.height = panel.getHeight();
 		

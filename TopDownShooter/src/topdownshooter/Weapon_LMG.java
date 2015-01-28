@@ -16,6 +16,6 @@ public class Weapon_LMG extends Weapon {
 		spread = 0.1;
 		lightDist = 1.5;
 		lightIntensity = 0.4;
-		optimalRange = 15;
+		optimalRange = 10;
 	}
 }

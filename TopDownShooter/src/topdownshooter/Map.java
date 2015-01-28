@@ -235,6 +235,18 @@ public class Map {
 		return new Point(1.5, 1.5);
 	}
 	
+	Point flagPoint (int team)
+	{
+		ArrayList<Point> list = new ArrayList<>();
+		for (int x = 0; x < width; x++)
+			for (int y = 0; y < height; y++)
+				if ((int)(get(x, y)-'A') == team)
+					list.add(new Point(x + 0.5, y + 0.5));
+		if (list.size() > 0)
+			return list.get((int)(Math.random()*list.size()));
+		return spawnPoint(team);
+	}
+	
 	Point randomPos ()
 	{
 		ArrayList<Point> list = new ArrayList<>();

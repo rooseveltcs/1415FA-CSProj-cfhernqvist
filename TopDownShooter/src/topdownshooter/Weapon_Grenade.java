@@ -23,7 +23,8 @@ public class Weapon_Grenade extends Weapon {
 	void bulletUpdate (Bullet bullet)
 	{
 		Situation s = Main.situation;
-		double length = speed*Settings.deltaTime*(bullet.timer/lifeTime);
+		bullet.speed -= Settings.deltaTime*(speed/lifeTime);
+		double length = bullet.speed*Settings.deltaTime;//*(bullet.timer/lifeTime);
 		if (s.map.lineCast(bullet.pos, bullet.angle, length))
 		{
 			boolean h = false, v = false;
@@ -37,6 +38,7 @@ public class Weapon_Grenade extends Weapon {
 				bullet.angle = Math.PI-bullet.angle;
 			if (h)
 				bullet.angle = -bullet.angle;
+			bullet.speed /= 1.3;
 			//bullet.angle += Math.PI;
 		}
 		if (bullet.timer < 0)

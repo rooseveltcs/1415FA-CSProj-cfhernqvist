@@ -1,5 +1,7 @@
 package topdownshooter;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public class Bot extends Actor {
@@ -44,13 +46,20 @@ public class Bot extends Actor {
 		double bestRating = 0, newRating;
 		Actor a;
 		for (int i = 0; i < Main.situation.actors.size(); i++)
-			if ((a = Main.situation.actors.get(i)).active && a.ingame && a.team != team
-			 && !Main.situation.map.lineCast(pos.clone(), a.pos) 
-			 && (newRating = 1/(ExtraMath.dist(pos, a.pos))) > bestRating)
+		{
+			a = Main.situation.actors.get(i);
+			newRating = 1/(ExtraMath.dist(pos, a.pos));
+			if (a.hasFlag)
+				newRating += 0.1;
+			if (!Main.situation.map.lineCast(pos.clone(), a.pos))
+				newRating *= 10;
+			if (a.active && a.ingame && a.team != team
+			 && newRating > bestRating)
 			{
 				bestRating = newRating;
 				best = i;
 			}
+		}
 		if (best == -1 || bestRating == 0)
 			return newRandomVictim();
 		return best;
@@ -59,8 +68,8 @@ public class Bot extends Actor {
 	@Override
 	void update ()
 	{
-		if (objective == null)
-			objective = new Objective_Attack(this);
+		if (objective == null || Math.random() < 20*Settings.deltaTime)
+			evaluate();
 		target = pos.clone();
 		objective.update();
 		dodge();
@@ -120,7 +129,33 @@ public class Bot extends Actor {
 	
 	void evaluate ()
 	{
-		
+		Objective[] o = new Objective[Objective.count];
+		int best = 0;
+		double bestRating = 0;
+		for (int i = 0; i < Objective.count; i++)
+		{
+			o[i] = Objective.get(i, this);
+			double rating;
+			if ((rating = o[i].rating()) > bestRating)
+			{
+				best = i;
+				bestRating = rating;
+				
+			}
+			//System.out.println("i = "+i+", r = "+rating);
+		}
+		//System.out.println("evaluated "+name+", best = "+o[best].name);
+		objective = o[best];
+	}
+	
+	void draw (Graphics2D g)
+	{
+		if (objective == null )
+			return;
+		g.setFont(GUI.fsmall);
+		g.setColor(Color.orange);
+		int sx = ExtraMath.sX(pos.x+Settings.actorRadius, 0), sy = ExtraMath.sY(pos.y-Settings.actorRadius, 0);
+		g.drawString(objective.name, sx, sy);
 	}
 	
 }

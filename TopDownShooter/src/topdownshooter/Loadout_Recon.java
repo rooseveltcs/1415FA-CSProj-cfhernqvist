@@ -8,5 +8,6 @@ public class Loadout_Recon extends Loadout {
 		letter = 'R';
 		speedMultiplier = 0.9;
 		healthMultiplier = 1;
+		regenMultiplier = 1;
 	}
 }

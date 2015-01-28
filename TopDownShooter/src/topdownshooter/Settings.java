@@ -8,6 +8,7 @@ public class Settings {
 	static int fps = 60;
 	static long deltaMillis;
 	static int tilesOnScreen = 30;
+	static int flagBonus = 20;
 	static double deltaTime;
 	static double cX = 0, cY = 0;
 	static double actorSpeed = 4, spawnDelay = 1;
@@ -15,9 +16,9 @@ public class Settings {
 	static double actorRadius = 0.3;
 	static double actorLightDist = 4, bulletLightDist = 2;
 	static Color[] teamColor = {Color.blue, Color.red, Color.green, Color.cyan
-		, Color.orange, Color.magenta, Color.pink, Color.yellow};
+		, Color.orange, Color.magenta, Color.pink, Color.yellow, Color.gray};
 	static String[] teamName = {"Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot"
-		, "Golf", "Hotel"};
+		, "Golf", "Hotel", "India"};
 	static Color floorColor = new Color(250, 250, 250);
 	static Color wallBottom = new Color(120, 120, 120);
 	static Color wallTop = new Color(80, 80, 80);
@@ -29,7 +30,8 @@ public class Settings {
 	
 	static GameMode[] gameMode = {
 		new GameMode_TD(),
-		new GameMode_Zombies()
+		new GameMode_Zombies(),
+		new GameMode_CF()
 	};
 	
 	static Weapon[] weapon = {
@@ -48,7 +50,8 @@ public class Settings {
 		new Loadout_Assault(),
 		new Loadout_Spec(),
 		new Loadout_Recon(),
-		new Loadout_Tank()
+		new Loadout_Tank(),
+		new Loadout_Knife()
 	};
 	
 	static Map[] maps = {
@@ -98,7 +101,7 @@ public class Settings {
 				"XXX             XXX",
 				"X X    X   X    X X",
 				"X                 X",
-				"X5   X   X   X   6X",
+				"X5   X   8   X   6X",
 				"X                 X",
 				"X X    X   X    X X",
 				"XXX             XXX",
@@ -129,6 +132,18 @@ public class Settings {
 				"XX XXXXX      X   X",
 				"X                 X",
 				"XXXXXXXXXXXXXXXXXXX"
+		}),
+		new Map ("Capture", 21, 10, new String[]{
+				"XXXXXXXXXXXXXXXXXXXXX",
+				"X0        X        1X",
+				"X0  X     X     X  1X",
+				"X0  X           X  1X",
+				"XX XX     X     XX XX",
+				"X         X         X",
+				"X     XXX   XXX     X",
+				"X  A             B  X",
+				"X    X         X    X",
+				"XXXXXXXXXXXXXXXXXXXXX"
 		})
 	};
 	
@@ -136,6 +151,7 @@ public class Settings {
 	{
 		deltaMillis = 1000/fps;
 		deltaTime = deltaMillis/1000.0;
+		//deltaTime /= 2;
 		for (int i = 0; i < maps.length; i++)
 		{
 			maps[i].findNodes();

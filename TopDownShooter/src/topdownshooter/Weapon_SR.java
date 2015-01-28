@@ -20,7 +20,7 @@ public class Weapon_SR extends Weapon {
 		lightIntensity = 0.7;
 		lifeTime = 0.3;
 		laserish = true;
-		optimalRange = 8;
+		optimalRange = 12;
 	}
 	
 	/*

@@ -16,6 +16,6 @@ public class Weapon_Pistol extends Weapon {
 		spread = 0.2;
 		lightDist = 1;
 		lightIntensity = 0.4;
-		optimalRange = 0;
+		optimalRange = 1;
 	}
 }

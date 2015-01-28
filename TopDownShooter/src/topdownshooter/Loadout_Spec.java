@@ -8,5 +8,6 @@ public class Loadout_Spec extends Loadout {
 		letter = 'S';
 		speedMultiplier = 1.2;
 		healthMultiplier = 0.8;
+		regenMultiplier = 2;
 	}
 }

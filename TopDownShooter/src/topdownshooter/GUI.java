@@ -48,7 +48,7 @@ public class GUI {
 			my = h-mh;
 			window(mx, my-50, mw, mh+50, "Play");
 			Settings.startGameMode = changeButtons(mx+bm, my+(bh+bm)*(i++), bw, bh, 
-					"GameMode: "+Settings.startGameMode, 0, Settings.gameMode.length, Settings.startGameMode);
+					Settings.gameMode[Settings.startGameMode].name, 0, Settings.gameMode.length-1, Settings.startGameMode);
 			Settings.teamsInPlay = changeButtons(mx+bm, my+(bh+bm)*(i++), bw, bh, 
 					"Teams: "+Settings.teamsInPlay, 2, 8, Settings.teamsInPlay);
 			Settings.playersOnTeam = changeButtons(mx+bm, my+(bh+bm)*(i++), bw, bh, 
@@ -126,9 +126,9 @@ public class GUI {
 		for (int j = 0; j < Settings.loadout.length; j++)
 			if (button(mx+bm, my+(bh+bm)*j+50, mw1-20, bh, Settings.loadout[j].name))
 				player.setLoadout(j);
-		if (button(mx+bm, my+mh-2*bh-2*bm, bw, bh
-				, "Spawn"+(player.spawnTime <= 0 ? " now":" in "+(int)(player.spawnTime+1)))
-				&& player.spawnTime <= 0)
+		if ((button(mx+bm, my+mh-2*bh-2*bm, bw, bh
+				, "Spawn"+(player.spawnTime <= 0 ? " (space)":" in "+(int)(player.spawnTime+1)))
+				|| Input.keyDown[KeyEvent.VK_SPACE]) && player.spawnTime <= 0)
 			s.spawnPlayer();
 		
 		Loadout l = player.l;
@@ -142,7 +142,7 @@ public class GUI {
 		g.drawString("Special: "+Settings.weapon[l.weapon[2]].name,mx2+10, my+50+25+space*(i++));
 		g.drawString("Speed: "+(int)(l.speedMultiplier*100)+"%",mx2+10, my+50+25+space*(i++));
 		g.drawString("Health: "+(int)(l.healthMultiplier*100)+"%",mx2+10, my+50+25+space*(i++));
-		
+		g.drawString("Regeneration: "+(int)(l.regenMultiplier*100)+"%",mx2+10, my+50+25+space*(i++));
 	}
 	
 	static void drawHUD (Graphics2D g2)

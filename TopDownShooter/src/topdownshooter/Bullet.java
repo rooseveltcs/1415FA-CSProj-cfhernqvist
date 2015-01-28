@@ -7,7 +7,7 @@ public class Bullet {
 	boolean active = true, damaging = true;
 	int type, team, author;
 	double angle;
-	double timer;
+	double timer, speed;
 	Point pos;
 	Point start;
 	
@@ -22,6 +22,7 @@ public class Bullet {
 		this.team = team;
 		this.author = author;
 		weapon = Settings.weapon[type];
+		speed = weapon.speed;
 		timer = weapon.lifeTime;
 	}
 	

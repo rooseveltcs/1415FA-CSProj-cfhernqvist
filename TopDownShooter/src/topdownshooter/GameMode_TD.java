@@ -3,7 +3,7 @@ package topdownshooter;
 public class GameMode_TD extends GameMode {
 	
 	public GameMode_TD(){
-		name = "TDM";
+		name = "Team Deathmatch";
 	}
 	
 	void update2(){

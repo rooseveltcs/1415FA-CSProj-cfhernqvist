@@ -19,7 +19,7 @@ public class Player extends Actor {
 	
 	@Override
 	void update (){
-		//health = 1;
+		health = 1;
 		if (!ingame)
 			return;
 		target = pos.clone();
@@ -45,6 +45,14 @@ public class Player extends Actor {
 		if (!ingame)
 			return;
 		g.setColor(Settings.teamColor[team]);
+		double spread = Settings.weapon[weapon].spread;
+		if (spread != 0)
+		{
+			double dir = ExtraMath.direction(pos, ExtraMath.toReal(new Point(Input.mouseX, Input.mouseY), 0));
+			g.setColor(ExtraMath.blendAlpha(Color.white, 0.3f));
+			drawLaser(g, dir-Settings.weapon[weapon].spread);
+			drawLaser(g, dir+Settings.weapon[weapon].spread);
+		}
 		//drawLaser(g, ExtraMath.toReal(new Point(Input.mouseX, Input.mouseY), 0));
 		//Path p = Main.situation.map.pathTo(pos, new Point(ExtraMath.rX(Input.mouseX, 0), ExtraMath.rY(Input.mouseY, 0)));
 		//Main.situation.map.drawNodes(g);

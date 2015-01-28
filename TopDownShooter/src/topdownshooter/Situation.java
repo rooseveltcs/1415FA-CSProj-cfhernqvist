@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public class Situation {
-	static final int TYPE_NORMAL = 0, TYPE_ZOMBIES = 1;
+	static final int TYPE_NORMAL = 0, TYPE_ZOMBIES = 1, TYPE_CF = 2;
 	Map map;
 	int playerIndex = -1, teams, maxScore;
 	int gameMode;
@@ -14,6 +14,7 @@ public class Situation {
 	ArrayList<Actor> actors;
 	ArrayList<Bullet> bullets;
 	ArrayList<ExplosionEffect> effects;
+	ArrayList<Flag> flags;
 	int[] teamScore;
 	boolean spawnOnDeath = true;
 	GameMode g;
@@ -23,6 +24,7 @@ public class Situation {
 		actors = new ArrayList<>();
 		bullets = new ArrayList<>();
 		effects = new ArrayList<>();
+		flags = new ArrayList<>();
 		setMatch(2, 100, 300);
 	}
 	
@@ -161,6 +163,8 @@ public class Situation {
 		for (int i = 0; i < bullets.size(); i++)
 			if (bullets.get(i).active)
 				bullets.get(i).addLight();
+		for (int i = 0; i < flags.size(); i++)
+				flags.get(i).addLight();
 		map.drawFloors(g);
 		for (int i = 0; i < actors.size(); i++)
 			if (i != playerIndex)
@@ -174,11 +178,15 @@ public class Situation {
 		for (int i = 0; i < bullets.size(); i++)
 			if (bullets.get(i).active)
 				bullets.get(i).engineDraw(g);
+		for (int i = 0; i < flags.size(); i++)
+			flags.get(i).draw(g);
+		
 		map.drawWalls(g);
 		map.drawTops(g);
 		//map.drawNodes(g);
 		for (int i = 0; i < actors.size(); i++)
 			actors.get(i).draw(g);
+		
 		
 		if (Main.gameRunning && matchTimeLeft > 0 && !Main.paused && !getPlayer().ingame)
 			GUI.drawSpawn(g);
@@ -207,6 +215,8 @@ public class Situation {
 		for (int i = 0; i < effects.size(); i++)
 			if (effects.get(i).active)
 				effects.get(i).update();
+		for (int i = 0; i < flags.size(); i++)
+			flags.get(i).update();
 		if (matchTimeLeft < 0 && Main.gameRunning)
 		{
 			Main.pause();
